@@ -36,6 +36,7 @@ func main() {
 
 	r.GET("/mine-block", mineBlockHandler)
 	r.GET("/get-chain", getChainHandler)
+	r.GET("/is-blockchain-valid", isBlockchainValidHandler)
 
 	r.Run()
 }

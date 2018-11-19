@@ -24,3 +24,10 @@ func getChainHandler(c *gin.Context) {
 		"length": len(blockchain.Chain),
 	})
 }
+
+func isBlockchainValidHandler(c *gin.Context) {
+
+	c.JSON(200, gin.H{
+		"isValid": blockchain.isChainValid(blockchain.Chain),
+	})
+}
