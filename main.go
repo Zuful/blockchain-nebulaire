@@ -3,10 +3,15 @@ package main
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/satori/go.uuid"
+	"log"
+	"strings"
 	"time"
 )
 
 var blockchain Blockchain
+var transactions []Transaction
+var nodeAddress string
 
 func main() {
 	r := gin.Default()
@@ -37,10 +42,21 @@ func main() {
 	r.GET("/mine-block", mineBlockHandler)
 	r.GET("/get-chain", getChainHandler)
 	r.GET("/is-blockchain-valid", isBlockchainValidHandler)
+	r.POST("/add-transaction")
 
-	r.Run()
+	err := r.Run()
+
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func init() {
+	uuidV4, err := uuid.NewV4()
+	if err != nil {
+		log.Print(err)
+	}
+	nodeAddress = strings.Replace(uuidV4.String(), "-", "", 1)
+	transactions = make([]Transaction, 0)
 	blockchain.createBlock(1, "0")
 }
