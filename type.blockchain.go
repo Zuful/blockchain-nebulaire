@@ -117,7 +117,7 @@ func (blockchain *Blockchain) addNode(address string) {
 	blockchain.Nodes = append(blockchain.Nodes, parsedUrl.Host)
 }
 
-func (blockchain *Blockchain) replaceChain(address string) bool {
+func (blockchain *Blockchain) replaceChain() bool {
 	var network []string = blockchain.Nodes
 	var longestChain []Block
 	var maxLength uint32 = uint32(len(blockchain.Chain))
@@ -132,13 +132,13 @@ func (blockchain *Blockchain) replaceChain(address string) bool {
 				log.Print(err)
 			}
 
-			if chainResponse.Length > maxLength && blockchain.isChainValid(chainResponse.Chain) {
+			if chainResponse.Length > maxLength && blockchain.isChainValid(chainResponse.Chain) { //the chain of this iteration is the longest so far
 				maxLength = chainResponse.Length
 				longestChain = chainResponse.Chain
 			}
 
 			if len(longestChain) > 0 {
-				blockchain.Chain = chainResponse.Chain //the current chain must be updated to the longest one
+				blockchain.Chain = chainResponse.Chain //the current chain (chain of the type) must be updated to the longest one
 				return true
 			}
 		}
